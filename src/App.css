@@ -2,6 +2,15 @@
   text-align: center;
 }
 
+html {
+  overflow-x: hidden;
+}
+
+.vertical-container-500 {
+  height: 500px;
+  overflow-y: scroll;
+}
+
 .App-logo {
   height: 40vmin;
 }
@@ -16,7 +25,55 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+img {
+  margin: 15px 15px;
+}
+hr {
+  width: 50px;
+  margin-bottom: 30px;
+}
 
 .App-link {
   color: #09d3ac;
 }
+
+h1, h2, h3, p {
+  text-align: center;
+}
+
+p {
+  margin: 40px 0;
+}
+
+header {
+  height: 50px;
+}
+
+iframe {
+  display: block; 
+  margin: auto;
+}
+
+p {
+  max-width: 60%;
+  display: block;
+  margin:auto;
+}
+
+footer {
+  height: 50px;
+  background-color: #d3d3d3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  background-color: #d3d3d3;
+}
+
+main, section {
+  background-color: #fff;
+  padding: 35px;
+}
+
