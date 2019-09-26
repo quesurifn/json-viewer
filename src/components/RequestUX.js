@@ -44,7 +44,7 @@ class RequestUX extends React.PureComponent {
             parsedHeaders['Content-Type'] = "application/json"
         }
         
-        const axiosConfig = { url, method, headers: parsedHeaders, data: body}
+        const axiosConfig = { url, method, headers: parsedHeaders, data: body }
         try {
             response = await axios(axiosConfig)
             this.setState({response})
