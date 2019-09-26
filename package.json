@@ -5,6 +5,7 @@
   "dependencies": {
     "@monaco-editor/react": "^1.2.1",
     "axios": "^0.19.0",
+    "isjsonstring": "^1.0.2",
     "react": "^16.9.0",
     "react-diff-viewer": "^2.0.1",
     "react-dom": "^16.9.0",

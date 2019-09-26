@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactModal from 'react-modal'
+import isJSONString from 'isjsonstring'
 
 import Editor from './Editor'
 import Viewer from './Viewer'
@@ -14,7 +15,7 @@ class ViewerAndEditor extends React.PureComponent  {
 
         this.state = {
           json: '[{"hello":"world"}]',
-          response: false,
+          error: false, 
           showModal: false
       }
 
@@ -32,7 +33,14 @@ class ViewerAndEditor extends React.PureComponent  {
     }
 
     updateFromChild (response) {
-      this.setState({ response })
+      console.log(response)
+      if(isJSONString(response)) {
+        this.setState({json: response})
+      } else if(response instanceof Error) {
+        this.setState({error: response})
+      } else {
+
+      }
     }
 
     render() {
