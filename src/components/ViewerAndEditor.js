@@ -3,6 +3,7 @@ import ReactModal from 'react-modal'
 
 import Editor from './Editor'
 import Viewer from './Viewer'
+import RequestUX from './RequestUX'
 
 import 'react-dropdown/style.css'
 
@@ -13,11 +14,13 @@ class ViewerAndEditor extends React.PureComponent  {
 
         this.state = {
           json: '[{"hello":"world"}]',
+          response: false,
           showModal: false
       }
 
       this.handleOpenModal = this.handleOpenModal.bind(this);
       this.handleCloseModal = this.handleCloseModal.bind(this);
+      this.updateFromChild = this.updateFromChild.bind(this);
     }
 
     handleOpenModal () {
@@ -26,6 +29,10 @@ class ViewerAndEditor extends React.PureComponent  {
     
     handleCloseModal () {
       this.setState({ showModal: false });
+    }
+
+    updateFromChild (response) {
+      this.setState({ response })
     }
 
     render() {
@@ -46,7 +53,7 @@ class ViewerAndEditor extends React.PureComponent  {
               </div>
             </div>
             <ReactModal isOpen={this.state.showModal} contentLabel="Request JSON">
-              
+              <RequestUX  updateParent={this.updateFromChild}/>
               <button onClick={this.handleCloseModal}>Close Modal</button>
             </ReactModal>
           </div>

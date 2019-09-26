@@ -47,9 +47,9 @@ class RequestUX extends React.PureComponent {
         const axiosConfig = { url, method, headers: parsedHeaders, data: body }
         try {
             response = await axios(axiosConfig)
-            this.setState({response})
+            this.props.updateParent({response})
         } catch(error) {
-            this.setState({error})
+            this.props.updateParent({error})
         }
     }
 
