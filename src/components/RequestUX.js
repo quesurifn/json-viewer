@@ -33,17 +33,23 @@ class RequestUX extends React.PureComponent {
         event.preventDefault()
     }
 
-    handleInputChange(i, event) {
+    handleInputChange(i, event, mode) {
         const fields = this.state.fields
         const values = [...fields];
-        values[i].value = event.target.value;
+
+        if(mode === "key") {
+            values[i].key = event.target.value;
+        } else {
+            values[i].value = event.target.value;
+        }
+
         this.setState({fields: values})
     }
     
     handleInputAdd() {
         const fields = this.state.fields
         const values = [...fields];
-        values.push({ value: null });
+        values.push({ key: null, value: null });
         this.setState({fields: values})
     }
     
