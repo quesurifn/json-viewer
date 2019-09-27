@@ -20,24 +20,22 @@ function App() {
           <Tab>JSON Viewer</Tab>
           <Tab>JSON Differ</Tab>
           </TabList>
-
           <TabPanel>
             <ViewerAndEditor />
           </TabPanel>
-            
           <TabPanel>
             <DiffChecker />
           </TabPanel>
         </Tabs>
       </main>
-      <section className="container" style={{backgroundColor: "#d3d3d3"}}>
-        <h2>Why</h2>
-        <hr  />
-        <p>
-          JSON is tough to work with. After working a few hours staring at your screen, viewing JSON in a manner that makes sense becomes more and more difficult. 
-          Spaces start looking like tabs and braces start looking like brackets. jsonviewer.dev was made to easily understand your JSON in a tree-like format complete with data types, validate it with the built-in editor, and diff it with a setup that's easier on the eyes than Github's.
-        </p>
-      </section>
+        {/* <section className="container" style={{backgroundColor: "#d3d3d3"}}>
+            <h2>Why</h2>
+            <hr  />
+            <p>
+            JSON is tough to work with. After working a few hours staring at your screen, viewing JSON in a manner that makes sense becomes more and more difficult. 
+            Spaces start looking like tabs and braces start looking like brackets. jsonviewer.dev was made to easily understand your JSON in a tree-like format complete with data types, validate it with the built-in editor, and diff it with a setup that's easier on the eyes than Github's.
+            </p>
+    </section> */}
       <section className="container">
         <h2>Reference</h2>
         <hr  />
@@ -48,7 +46,7 @@ function App() {
         <h2>Learn More About JSON</h2>
         <hr  />
         <iframe title="Free Code Camp Youtube, learn more about JSON" width="560" height="315" src="https://www.youtube-nocookie.com/embed/GpOO5iKzOmY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <small style={{margin: "20px 0", textAlign: "center", display: "block"}}>*The original site about json can be found <a href="https://json.org">here</a></small>
+        <small style={{margin: "20px 0", textAlign: "center", display: "block"}}>*The original site about JSON can be found <a href="https://json.org">here</a></small>
     </section>
     <section className="container" >
     <div className="row">

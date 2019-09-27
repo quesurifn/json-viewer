@@ -29,7 +29,7 @@ class RequestUX extends React.PureComponent {
 
 
     async handleSubmit(event) {
-        event.preventDefault()
+        event.preventDefault();
         let response = null;
         const {method, url, headers, body} = this.state
 
@@ -50,6 +50,8 @@ class RequestUX extends React.PureComponent {
         } catch(error) {
             this.setState({error})
         }
+
+
     }
 
     _onSelect (option) {
@@ -89,56 +91,56 @@ class RequestUX extends React.PureComponent {
     render() {
         const { headers, body, error } = this.state 
         return (
-            <form onSubmit={this.handleSubmit}>
-                {error && error instanceof Error &&
-                  <div className="alert alert-danger"> 
-                      <p>{error.message}</p>
-                  </div>
-                }
-                <h1>Request JSON</h1>
-                <div className="form-inline">
-                    <select className="form-control" onChange={this._onSelect}> 
-                            {this.options.map((e, idx) => {
-                                if(idx === 0) {
-                                    return <option key={idx} defaultValue>{e}</option>
-                                } else {
-                                    return <option key={idx}>{e}</option>
-                                }
-                            })}
-                    </select>
-                    <input className="form-control"  onChange={this.handleChange} name="url" type="url" required placeholder="Enter URL here"/>
-                </div>
-              
-                <Tabs>
-                    <TabList>
-                        <Tab>Headers</Tab>
-                        <Tab>Body</Tab>
-                    </TabList>
-                  
-                    <TabPanel>
-                            {headers.map((field, idx) => {
-                                return (
-                                    <React.Fragment>
-                                        <div key={`${field}-${idx}`} className="form-inline">
-                                            <input className="form-control" type="text" placeholder="Header Key"  onChange={e => this.handleInputChange(idx, e, "key")}/>
-                                            <input className="form-control" type="text" placeholder="Header Value"  onChange={e => this.handleInputChange(idx, e, "value")}/>
-                                            <button className="btn btn-dark"  type="button" onClick={() => this.handleInputRemove(idx)}>-</button>
-                                        </div>
-                                    </React.Fragment>
-                                );
-                            })}
-                            <small style={{display: "block"}}>* Content-Type: application/json is included by default and cannot be changed</small>
-                            <button type="button" className="btn btn-dark margin-v" onClick={() => this.handleInputAdd()}>+ header</button>
-                    </TabPanel>
-                    <TabPanel>
-                        <Editor value={body} handleEditorChange={(_ev, changedJson) => this.setState({body: changedJson})} />
-                    </TabPanel>
-                </Tabs>
-                <div className="form-inline">   
-                    <button className="btn btn-dark margin-l" type="submit">Submit</button>
-                    <button className="btn btn-dark margin-l" onClick={this.handleCloseModal}>Close Modal</button>
-                </div>
-            </form>
+                <form onSubmit={this.handleSubmit}>
+                    {error && error instanceof Error &&
+                    <div className="alert alert-danger"> 
+                        <p>{error.message}</p>
+                    </div>
+                    }
+                    <h1>Request JSON</h1>
+                    <label><b>HTTP Method and URI</b></label>
+                    <div className="form-inline">
+                        <select className="form-control" onChange={this._onSelect}> 
+                                {this.options.map((e, idx) => {
+                                    if(idx === 0) {
+                                        return <option key={idx} defaultValue>{e}</option>
+                                    } else {
+                                        return <option key={idx}>{e}</option>
+                                    }
+                                })}
+                        </select>
+                        <input className="form-control"  onChange={this.handleChange} name="url" type="url" required placeholder="Enter URL here"/>
+                    </div>
+                
+                    <Tabs>
+                        <TabList>
+                            <Tab>Headers</Tab>
+                            <Tab>Body</Tab>
+                        </TabList>
+                    
+                        <TabPanel>
+                                {headers.map((field, idx) => {
+                                    return (
+                                            <div key={`${field}-${idx}`} className="form-inline">
+                                                <input className="form-control" type="text" placeholder="Header Key"  onChange={e => this.handleInputChange(idx, e, "key")}/>
+                                                <input className="form-control" type="text" placeholder="Header Value"  onChange={e => this.handleInputChange(idx, e, "value")}/>
+                                                <button className="btn btn-dark"  type="button" onClick={() => this.handleInputRemove(idx)}>-</button>
+                                            </div>
+                                    );
+                                })}
+                                <small style={{display: "block"}}>* Content-Type: application/json is included by default and cannot be changed</small>
+                                <button type="button" className="btn btn-dark margin-v" onClick={() => this.handleInputAdd()}>+ header</button>
+                        </TabPanel>
+                        <TabPanel>
+                            <Editor value={body} handleEditorChange={(_ev, changedJson) => this.setState({body: changedJson})} />
+                        </TabPanel>
+                    </Tabs>
+                    <div className="form-inline">   
+                        <button className="btn btn-dark margin-l" type="submit">Submit</button>
+                        <a style={{color: "white"}} className="btn btn-dark margin-l" onClick={this.props.modalClose}>Close Modal</a>
+                    </div>
+                </form>
+    
         )
     }
 }
