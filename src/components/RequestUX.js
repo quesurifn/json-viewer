@@ -69,7 +69,6 @@ class RequestUX extends React.PureComponent {
         } else {
             values[i].value = event.target.value;
         }
-
         this.setState({headers: values, error: false})
     }
     
