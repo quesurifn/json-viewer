@@ -14,7 +14,7 @@ function App() {
       <header>
         <img height="35px" src={Logo} alt="jsonviewer.dev's logo" />
       </header>
-       <main className="container">
+       <main className="container" id="app">
         <Tabs>
           <TabList>
           <Tab>JSON Viewer</Tab>

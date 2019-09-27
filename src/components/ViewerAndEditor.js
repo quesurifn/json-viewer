@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactModal from 'react-modal'
-import isJSONString from 'isjsonstring'
 
 import Editor from './Editor'
 import Viewer from './Viewer'
@@ -8,8 +7,8 @@ import RequestUX from './RequestUX'
 
 import 'react-dropdown/style.css'
 
-
-class ViewerAndEditor extends React.PureComponent  {
+ReactModal.setAppElement("#root")
+class ViewerAndEditor extends React.Component  {
     constructor() {
         super()
 
@@ -32,14 +31,14 @@ class ViewerAndEditor extends React.PureComponent  {
       this.setState({ showModal: false });
     }
 
-    updateFromChild (response) {
-      console.log(response)
-      if(isJSONString(response)) {
-        this.setState({json: response})
+    updateFromChild (resp) {
+      let { response } = resp
+      if(typeof response.data === 'object') {
+        this.setState({json: JSON.stringify(response.data)})
+        this.handleCloseModal()
       } else if(response instanceof Error) {
         this.setState({error: response})
       } else {
-
       }
     }
 
@@ -57,16 +56,18 @@ class ViewerAndEditor extends React.PureComponent  {
                 </div>
               </div>
               <div className="col-md-12">
-                <button onClick={this.handleOpenModal}>Get RESTful JSON</button>
+                <button className="btn btn-dark" onClick={this.handleOpenModal}>Get RESTful JSON</button>
               </div>
             </div>
             <ReactModal isOpen={this.state.showModal} contentLabel="Request JSON">
-              <RequestUX  updateParent={this.updateFromChild}/>
-              <button onClick={this.handleCloseModal}>Close Modal</button>
+              <RequestUX  updateParent={this.updateFromChild} modalClose={this.handleCloseModal}/>
             </ReactModal>
+    
           </div>
         )
     }
 }
+
+
 
 export default ViewerAndEditor;

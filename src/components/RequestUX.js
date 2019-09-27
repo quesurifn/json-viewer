@@ -1,6 +1,5 @@
 import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import Dropdown from 'react-dropdown';
 import axios from 'axios';
 import Editor from './Editor';
 
@@ -47,21 +46,18 @@ class RequestUX extends React.PureComponent {
         const axiosConfig = { url, method, headers: parsedHeaders, data: body }
         try {
             response = await axios(axiosConfig)
-            console.log(response)
             this.props.updateParent({response})
         } catch(error) {
-            console.error(error)
-            this.props.updateParent({error})
+            this.setState({error})
         }
     }
 
     _onSelect (option) {
-        console.log('You selected ', option.label)
-        this.setState({selected: option})
+        this.setState({method: option.target.options[option.target.selectedIndex].text, error: false})
       }
 
     handleChange(event) {
-        this.setState({[event.target.name]: event.target.value});
+        this.setState({[event.target.name]: event.target.value, error: false});
     }
     
     handleInputChange(i, event, mode) {
@@ -74,29 +70,46 @@ class RequestUX extends React.PureComponent {
             values[i].value = event.target.value;
         }
 
-        this.setState({fields: values})
+        this.setState({headers: values, error: false})
     }
     
     handleInputAdd() {
         const headers = this.state.headers
         const values = [...headers];
         values.push({ key: null, value: null });
-        this.setState({fields: values})
+        this.setState({headers: values})
     }
     
     handleInputRemove(i) {
         const headers = this.state.headers
         const values = [...headers];
         values.splice(i, 1);
-        this.setState({fields: values})
+        this.setState({headers: values})
     }
 
     render() {
-        const fields = this.state.fields
+        const { headers, body, error } = this.state 
         return (
             <form onSubmit={this.handleSubmit}>
-                <Dropdown options={this.options} onChange={this._onSelect} value={this.options[0]} placeholder="Select a method" />
-                <input onChange={this.handleChange} name="url" type="url" required />
+                {error && error instanceof Error &&
+                  <div className="alert alert-danger"> 
+                      <p>{error.message}</p>
+                  </div>
+                }
+                <h1>Request JSON</h1>
+                <div className="form-inline">
+                    <select className="form-control" onChange={this._onSelect}> 
+                            {this.options.map((e, idx) => {
+                                if(idx === 0) {
+                                    return <option key={idx} defaultValue>{e}</option>
+                                } else {
+                                    return <option key={idx}>{e}</option>
+                                }
+                            })}
+                    </select>
+                    <input className="form-control"  onChange={this.handleChange} name="url" type="url" required placeholder="Enter URL here"/>
+                </div>
+              
                 <Tabs>
                     <TabList>
                         <Tab>Headers</Tab>
@@ -104,28 +117,30 @@ class RequestUX extends React.PureComponent {
                     </TabList>
                   
                     <TabPanel>
-                        <button type="button" onClick={() => this.handleAdd()}>+</button>
-                            {fields.map((field, idx) => {
+                            {headers.map((field, idx) => {
                                 return (
-                                    <div key={`${field}-${idx}`} className="inline-form">
-                                        <input type="text" placeholder="Header Key"  onChange={e => this.handleInputChange(idx, e, "key")}/>
-                                        <input type="text" placeholder="Header Value"  onChange={e => this.handleInputChange(idx, e, "value")}/>
-                                        <button type="button" onClick={() => this.handleInputRemove(idx)}>
-                                            x
-                                        </button>
-                                    </div>
+                                    <React.Fragment>
+                                        <div key={`${field}-${idx}`} className="form-inline">
+                                            <input className="form-control" type="text" placeholder="Header Key"  onChange={e => this.handleInputChange(idx, e, "key")}/>
+                                            <input className="form-control" type="text" placeholder="Header Value"  onChange={e => this.handleInputChange(idx, e, "value")}/>
+                                            <button className="btn btn-dark"  type="button" onClick={() => this.handleInputRemove(idx)}>-</button>
+                                        </div>
+                                    </React.Fragment>
                                 );
                             })}
+                            <small style={{display: "block"}}>* Content-Type: application/json is included by default and cannot be changed</small>
+                            <button type="button" className="btn btn-dark margin-v" onClick={() => this.handleInputAdd()}>+ header</button>
                     </TabPanel>
-                    
                     <TabPanel>
-                        <Editor handleEditorChange={(_ev, changedJson) => this.setState({body: changedJson})} />
+                        <Editor value={body} handleEditorChange={(_ev, changedJson) => this.setState({body: changedJson})} />
                     </TabPanel>
                 </Tabs>
-                <button type="submit">Submit</button>
+                <div className="form-inline">   
+                    <button className="btn btn-dark margin-l" type="submit">Submit</button>
+                    <button className="btn btn-dark margin-l" onClick={this.handleCloseModal}>Close Modal</button>
+                </div>
             </form>
         )
     }
 }
-
 export default RequestUX;
